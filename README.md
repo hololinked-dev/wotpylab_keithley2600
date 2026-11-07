@@ -105,7 +105,7 @@ is the reference for the names, the inputs and the outputs of all interactions.
 
 ## The Thing Description
 
-The Thing Description (as a Thing Model) is written in `wotpylab_keithley2600/td.py`.
+The Thing Description (as a Thing Model) is written in `wotpylab_keithley2600/td.py` - an exported copy is in [`keithley-2600.json`](keithley-2600.json).
 To read more about Thing Descriptions, see:
 
 - [the readme of hololinked](https://github.com/hololinked-dev/hololinked)
