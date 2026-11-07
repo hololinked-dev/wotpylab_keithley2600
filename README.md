@@ -45,15 +45,15 @@ $ pip install git+https://github.com/hololinked-dev/wotpylab_keithley2600.git
 CLI is the easiest starting point. It has two commands, `serve` and `generate-td`:
 
 ```console
-$ wotpylab-keithley2600 --help
-$ wotpylab-keithley2600 serve --help
+$ wotpylab_keithley2600 --help
+$ wotpylab_keithley2600 serve --help
 ```
 
 From a git clone of this repository, prefix the commands with `uv run`, or use
-`python -m wotpylab_keithley2600.run` instead of `wotpylab-keithley2600`:
+`python -m wotpylab_keithley2600.run` instead of `wotpylab_keithley2600`:
 
 ```console
-$ uv run wotpylab-keithley2600 --help
+$ uv run wotpylab_keithley2600 --help
 $ uv run python -m wotpylab_keithley2600.run --help
 ```
 
@@ -62,7 +62,7 @@ $ uv run python -m wotpylab_keithley2600.run --help
 Give the VISA address of your Keithley:
 
 ```console
-$ wotpylab-keithley2600 serve --id keithley-2600 --visa-address TCPIP0::192.168.2.121::INSTR
+$ wotpylab_keithley2600 serve --id keithley-2600 --visa-address TCPIP0::192.168.2.121::INSTR
 ```
 
 HTTP is the default protocol and the instrument will be served on port 8080 with the Thing ID `keithley-2600`. A so-called
@@ -113,9 +113,9 @@ To read more about Thing Descriptions, see:
 To change the Thing Description without changing the code, write it to a file, edit the file and serve that file:
 
 ```console
-$ wotpylab-keithley2600 generate-td --output keithley-2600.json
+$ wotpylab_keithley2600 generate-td --output keithley-2600.json
 # add properties and actions to keithley-2600.json
-$ wotpylab-keithley2600 serve --td keithley-2600.json --visa-address TCPIP0::192.168.2.121::INSTR
+$ wotpylab_keithley2600 serve --td keithley-2600.json --visa-address TCPIP0::192.168.2.121::INSTR
 ```
 
 To expose another TSP attribute, add a property named by its path to `"properties"`, for example
@@ -162,7 +162,7 @@ Choose the protocol with `--protocol`, `http` by default.
 | `--access-points AP [AP ...]` | `IPC` | `IPC`, `INPROC`, `TCP` or a TCP socket address like `tcp://*:5555` |
 
 ```console
-$ wotpylab-keithley2600 serve --protocol zmq --access-points IPC tcp://*:5555
+$ wotpylab_keithley2600 serve --protocol zmq --access-points IPC tcp://*:5555
 ```
 
 Over TCP, events are published on the next port (5556 in this example).
@@ -177,7 +177,7 @@ The password is asked for when the server starts,
 so that it is not stored in the shell history:
 
 ```console
-$ wotpylab-keithley2600 serve --security basic --username lab
+$ wotpylab_keithley2600 serve --security basic --username lab
 Password of lab:
 ```
 
@@ -200,7 +200,7 @@ default; pass `validity_period_minutes` to `create()` to change that. Then serve
 file it is stored in:
 
 ```console
-$ wotpylab-keithley2600 serve --security apikey --apikey-name lab --apikey-file apikeys.json
+$ wotpylab_keithley2600 serve --security apikey --apikey-name lab --apikey-file apikeys.json
 ```
 
 Clients send `X-API-Key: <key>`.
@@ -210,7 +210,7 @@ Clients send `X-API-Key: <key>`.
 Give the issuer of your OIDC provider, for example Keycloak:
 
 ```console
-$ wotpylab-keithley2600 serve --security oidc --oidc-issuer https://keycloak.example.com/realms/lab --oidc-audience keithley --oidc-allowed-roles device-admin
+$ wotpylab_keithley2600 serve --security oidc --oidc-issuer https://keycloak.example.com/realms/lab --oidc-audience keithley --oidc-allowed-roles device-admin
 ```
 
 or put the settings in a JSON file, whose keys are the arguments of hololinked's
@@ -225,7 +225,7 @@ or put the settings in a JSON file, whose keys are the arguments of hololinked's
 ```
 
 ```console
-$ wotpylab-keithley2600 serve --security oidc --oidc-config-file oidc.json
+$ wotpylab_keithley2600 serve --security oidc --oidc-config-file oidc.json
 ```
 
 Options given on the command line override the file. Clients send

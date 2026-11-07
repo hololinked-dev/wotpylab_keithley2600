@@ -3,7 +3,7 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "wotpylab-keithley2600"
+name = "wotpylab_keithley2600"
 version = "0.1.0"
 description = "Keithley 2600 series SMUs served as a Web of Things device with hololinked."
 readme = "README.md"
@@ -39,7 +39,7 @@ Documentation = "https://docs.hololinked.dev"
 Homepage = "https://hololinked.dev"
 
 [project.scripts]
-wotpylab-keithley2600 = "wotpylab_keithley2600.run:main"
+wotpylab_keithley2600 = "wotpylab_keithley2600.run:main"
 
 [tool.setuptools.packages.find]
 include = ["wotpylab_keithley2600*"]

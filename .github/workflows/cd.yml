@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/wotpylab-keithley2600
+      url: https://test.pypi.org/p/wotpylab_keithley2600
     permissions:
       id-token: write # trusted publishing
     steps:
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi # add required reviewers to this environment
-      url: https://pypi.org/p/wotpylab-keithley2600
+      url: https://pypi.org/p/wotpylab_keithley2600
     permissions:
       id-token: write # trusted publishing
     steps:

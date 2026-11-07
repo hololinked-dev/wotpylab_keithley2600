@@ -1,8 +1,8 @@
 """
 Command line interface of the Keithley 2600 Thing.
 
-uv run wotpylab-keithley2600 generate-td --output keithley-2600.json   # write the TD as JSON
-uv run wotpylab-keithley2600 serve --td keithley-2600.json              # serve the Thing over HTTP
+uv run wotpylab_keithley2600 generate-td --output keithley-2600.json   # write the TD as JSON
+uv run wotpylab_keithley2600 serve --td keithley-2600.json              # serve the Thing over HTTP
 (or `uv run python -m wotpylab_keithley2600.run ...`)
 """
 
@@ -327,7 +327,7 @@ def argument_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
-    """Entry point of the `wotpylab-keithley2600` command (see `[project.scripts]` in pyproject.toml)."""
+    """Entry point of the `wotpylab_keithley2600` command (see `[project.scripts]` in pyproject.toml)."""
     arguments = vars(argument_parser().parse_args())
     command = arguments.pop("command")
     if command == "serve":
