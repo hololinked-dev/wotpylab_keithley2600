@@ -28,7 +28,7 @@ classifiers = [
 requires-python = ">=3.11"
 dependencies = [
     "keithley2600>=2.1.0",
-    "hololinked[all]>=0.4.2",
+    "hololinked[all]>=0.5.0",
     "standard-xdrlib>=3.13.0; python_version >= '3.13'", # keithley2600 imports the stdlib xdrlib, removed in Python 3.13
 ]
 

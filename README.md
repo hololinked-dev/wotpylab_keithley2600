@@ -15,6 +15,8 @@ Based on the keithley2600 driver. Documentation of the driver is available at
 
 > Current Status: *Untested*. Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
 
+[![PyPI](https://img.shields.io/pypi/v/wotpylab_keithley2600?label=pypi%20package)](https://pypi.org/project/wotpylab_keithley2600/) [![email](https://img.shields.io/badge/email-brown)](mailto:info@hololinked.dev) [![Discord](https://img.shields.io/discord/1265289049783140464?label=Discord%20Members&logo=discord)](https://discord.com/invite/kEz87zqQXh) [![CI](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/ci.yml/badge.svg)](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/ci.yml) [![CD](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/cd.yml/badge.svg)](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/cd.yml) [![Python](https://img.shields.io/pypi/pyversions/wotpylab_keithley2600)](https://pypi.org/project/wotpylab_keithley2600/) [![License](https://img.shields.io/pypi/l/wotpylab_keithley2600)](LICENSE.txt) ![Ruff](https://img.shields.io/badge/linter-ruff-blue?logo=ruff&logoColor=white) [![SAST](https://img.shields.io/badge/sast-bandit-yellow.svg)](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/ci.yml)
+
 ## Contents
 
 - [Installation](#installation)

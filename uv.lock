@@ -420,7 +420,7 @@ wheels = [
 
 [[package]]
 name = "hololinked"
-version = "0.4.2"
+version = "0.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argon2-cffi" },
@@ -435,9 +435,9 @@ dependencies = [
     { name = "structlog" },
     { name = "tornado" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9d/6e/70a2fdfe08b9df3154b09b47755fb847e94113c64b73bf04316d3387e04d/hololinked-0.4.2.tar.gz", hash = "sha256:fbeb082324a84bb41cba94fbdfe786c8184c2a094a4c96f912bf55701a45be5e", size = 288165, upload-time = "2026-10-13T11:22:29.942Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d0/18/76c8fe7949f44020eeb46c50f051f7fdebf19e26c7a1724fb7baf3c46c74/hololinked-0.5.0.tar.gz", hash = "sha256:c76688cfd1229b70494cbd020297e84b0fdb0bc40119898ab796fd8b74de8902", size = 301555, upload-time = "2026-11-07T21:30:27.452Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f0/0a/8b2422bf6f1601b5362007100a7b658339dab49094ea742ab8da3996216b/hololinked-0.4.2-py3-none-any.whl", hash = "sha256:be94f46afa20c3f4350df120d648b84f1ef0787f109fb58682d7c6d2254c7d6e", size = 326958, upload-time = "2026-10-13T11:22:28.589Z" },
+    { url = "https://files.pythonhosted.org/packages/f7/e3/2e8cd782e604a1897a9e17c19ad75af44c0453d9c8b571ec28f30df357d9/hololinked-0.5.0-py3-none-any.whl", hash = "sha256:574c9401c0eeba81fa48a067ba1fd901549fdd2075ebd53b63933da5dd5308ec", size = 341904, upload-time = "2026-11-07T21:30:25.857Z" },
 ]
 
 [package.optional-dependencies]
@@ -1781,7 +1781,7 @@ scanning = [
 
 [package.metadata]
 requires-dist = [
-    { name = "hololinked", extras = ["all"], specifier = ">=0.4.2" },
+    { name = "hololinked", extras = ["all"], specifier = ">=0.5.0" },
     { name = "keithley2600", specifier = ">=2.1.0" },
     { name = "standard-xdrlib", marker = "python_full_version >= '3.13'", specifier = ">=3.13.0" },
 ]
