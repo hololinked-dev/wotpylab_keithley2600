@@ -1,12 +1,14 @@
 """Thing Description (as a Thing Model) of the Keithley 2600 Thing."""
 
 import inspect
+
 from typing import Any
 
 from hololinked.metadata.td.base import WoTSchema
 from keithley2600.keithley_driver import Keithley2600 as BuiltinKeithley2600
 
 from wotpylab_keithley2600.keithley2600 import Buffer
+
 
 SMU = {"type": "string", "enum": ["smua", "smub"]}
 
@@ -35,12 +37,9 @@ def summary(member: Any) -> str:
     return WoTSchema.format_doc(inspect.cleandoc(member.__doc__ or "").split("\n\n")[0])
 
 
-def object_schema(required: bool = True, **properties: dict) -> dict:
-    """Object input schema whose keys are the method's keyword arguments."""
-    schema: dict[str, Any] = {"type": "object", "properties": properties}
-    if required:
-        schema["required"] = list(properties)
-    return schema
+def object_schema(**properties: dict) -> dict:
+    """Object input schema whose keys are the method's keyword arguments, all required."""
+    return {"type": "object", "properties": properties, "required": list(properties)}
 
 
 def array_schema(*names: str) -> dict:
@@ -277,11 +276,21 @@ TD = {
         "play_chord": {
             "title": "Play chord",
             "description": summary(BuiltinKeithley2600.play_chord),
-            "input": object_schema(
-                required=False,
-                notes={"type": "array", "items": {"type": "string"}},
-                durations={"oneOf": [{"type": "number", "unit": "s"}, {"type": "array", "items": {"type": "number"}}]},
-            ),
+            "input": {
+                "type": "object",
+                "properties": {
+                    "notes": {"type": "array", "items": {"type": "string"}},
+                    "durations": {
+                        "oneOf": [
+                            {"type": "number", "unit": "s"},
+                            {
+                                "type": "array",
+                                "items": {"type": "number"},
+                            },
+                        ]
+                    },
+                },
+            },
         },
     },
 }

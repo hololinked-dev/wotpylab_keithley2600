@@ -1,13 +1,28 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "wotpylab-keithley2600"
 version = "0.1.0"
 description = "Keithley 2600 series SMUs served as a Web of Things device with hololinked."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE.txt"]
 authors = [
     {name = "Vignesh Vaidyanathan", "email" = "info@hololinked.dev"},
+]
+keywords = ["keithley", "smu", "source-measure-unit", "web-of-things", "hololinked", "instrument-control", "lab-automation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Hardware :: Hardware Drivers",
 ]
 # hololinked requires Python >= 3.11
 requires-python = ">=3.11"
@@ -17,14 +32,56 @@ dependencies = [
     "standard-xdrlib>=3.13.0; python_version >= '3.13'", # keithley2600 imports the stdlib xdrlib, removed in Python 3.13
 ]
 
+[project.urls]
+Repository = "https://github.com/hololinked-dev/wotpylab_keithley2600"
+Issues = "https://github.com/hololinked-dev/wotpylab_keithley2600/issues"
+Documentation = "https://docs.hololinked.dev"
+Homepage = "https://hololinked.dev"
+
 [project.scripts]
 wotpylab-keithley2600 = "wotpylab_keithley2600.run:main"
 
 [tool.setuptools.packages.find]
 include = ["wotpylab_keithley2600*"]
 
-[tool.uv.sources]
-hololinked = { path = "hololinked", editable = true }
+[dependency-groups]
+dev = [
+    "ruff==0.14.2",
+    "ty==0.0.35",
+    "pre-commit>=4.5.0",
+]
+scanning = [
+    "bandit>=1.9.1",
+]
 
-[tool.uv]
-config-settings-package = { hololinked = { editable_mode = "compat" } }
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = [
+    "I",    # isort
+]
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+lines-after-imports = 2
+
+[tool.ty.src]
+include = ["wotpylab_keithley2600"]
+
+[[tool.ty.overrides]]
+# the override class takes and return serializable values, so their signatures deliberately differ from the 
+# underlying driver or the base class
+include = ["wotpylab_keithley2600/keithley2600.py"]
+rules = { invalid-method-override = "ignore" }
+
+[tool.bandit]
+exclude_dirs = [
+    ".venv",
+    ".ruff_cache",
+    "__pycache__",
+    ".vscode",
+    ".github",
+    "hololinked",
+    "upstream_keithley2600",
+]

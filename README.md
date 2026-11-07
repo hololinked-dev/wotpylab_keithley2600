@@ -13,8 +13,7 @@ Based on the keithley2600 driver. Documentation of the driver is available at
 - [https://github.com/OE-FET/keithley2600](https://github.com/OE-FET/keithley2600)
 - [https://keithley2600.readthedocs.io](https://keithley2600.readthedocs.io)
 
-> Current Status: *Untested*
-> Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
+> Current Status: *Untested*. Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
 
 ## Contents
 
@@ -108,7 +107,6 @@ The Thing Description (as a Thing Model) is written in `wotpylab_keithley2600/td
 To read more about Thing Descriptions, see:
 
 - [the readme of hololinked](https://github.com/hololinked-dev/hololinked)
-- [the documentation of hololinked](https://docs.hololinked.dev)
 - [the W3C website](https://www.w3.org/WoT/developers/documentation)
 - [the specification](https://www.w3.org/TR/wot-thing-description11/)
 
@@ -173,7 +171,9 @@ Over TCP, events are published on the next port (5556 in this example).
 
 Security schemes are supported over HTTP only. Choose one with `--security`:
 
-**Username and password** (`basic`). The password is asked for when the server starts,
+**Username and password** (`basic`) 
+
+The password is asked for when the server starts,
 so that it is not stored in the shell history:
 
 ```console
@@ -184,7 +184,9 @@ Password of lab:
 Clients send `Authorization: Basic <base64 of username:password>`. The password is stored
 as an Argon2 hash; use `--password-hasher bcrypt` for less memory.
 
-**API key** (`apikey`). Create the key once with hololinked:
+**API key** (`apikey`)
+
+Create the key once with hololinked:
 
 ```python
 import os
@@ -203,7 +205,9 @@ $ wotpylab-keithley2600 serve --security apikey --apikey-name lab --apikey-file 
 
 Clients send `X-API-Key: <key>`.
 
-**OIDC** (`oidc`). Give the issuer of your OIDC provider, for example Keycloak:
+**OIDC** (`oidc`)
+
+Give the issuer of your OIDC provider, for example Keycloak:
 
 ```console
 $ wotpylab-keithley2600 serve --security oidc --oidc-issuer https://keycloak.example.com/realms/lab --oidc-audience keithley --oidc-allowed-roles device-admin
@@ -232,7 +236,7 @@ get its signing keys.
 
 AI agents can operate the instrument through the same API. To set this up:
 
-- **Serve over HTTP**, the default protocol, so that the agent can reach the instrument with plain HTTP requests.
+- **Serve over HTTP** so that the agent can reach the instrument with plain HTTP requests.
 - **Give the agent the Thing Description** (`http://localhost:8080/keithley-2600/resources/wot-td`). It lists every
   property and action with its description, input and output schemas, units and the URL and HTTP method to call,
   which is what an agent needs to turn them into tools.

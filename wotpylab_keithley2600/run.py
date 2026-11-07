@@ -11,6 +11,7 @@ import getpass
 import json
 import os
 import ssl
+
 from dataclasses import dataclass, fields
 from typing import Any
 
@@ -28,6 +29,7 @@ from hololinked.server.zmq import ZMQServer
 
 from wotpylab_keithley2600.keithley2600 import Keithley2600
 from wotpylab_keithley2600.td import TD
+
 
 PROTOCOLS = ["http", "zmq"]
 SECURITY_SCHEMES = ["basic", "apikey", "oidc"]
@@ -105,12 +107,13 @@ def security_schemes(security_arguments: SecurityArguments) -> list[Security] | 
     if security_arguments.security == "apikey":
         if not security_arguments.apikey_name:
             raise ValueError("apikey security needs an --apikey-name")
-        apikey_security = APIKeySecurity(
-            name=security_arguments.apikey_name,
-            file=os.path.abspath(security_arguments.apikey_file) if security_arguments.apikey_file else "apikeys.json",
+        apikey_name = security_arguments.apikey_name
+        apikey_file = (
+            os.path.abspath(security_arguments.apikey_file) if security_arguments.apikey_file else "apikeys.json"
         )
-        if apikey_security.record is None:
-            raise ValueError(f"no API key named {apikey_security.name!r} in {apikey_security.file}")
+        apikey_security = APIKeySecurity(name=apikey_name, file=apikey_file)
+        if apikey_security.record is None:  # ty: ignore[unresolved-attribute]
+            raise ValueError(f"no API key named {apikey_name!r} in {apikey_file}")
         return [apikey_security]
     if security_arguments.security == "oidc":
         oidc_config: dict[str, Any] = {}
