@@ -13,18 +13,17 @@ Based on the keithley2600 driver. Documentation of the driver is available at
 - [https://github.com/OE-FET/keithley2600](https://github.com/OE-FET/keithley2600)
 - [https://keithley2600.readthedocs.io](https://keithley2600.readthedocs.io)
 
-Current Status: *Untested*
+> Current Status: *Untested*
+> Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
 
-Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
-
-**Contents**
+## Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-  - [Serve the instrument](#serve-the-instrument)
-  - [The Thing Description](#the-thing-description)
-  - [Protocols](#protocols)
-  - [Security](#security)
+- [Quickstart](#quickstart)
+- [Serve the instrument](#serve-the-instrument)
+- [The Thing Description](#the-thing-description)
+- [Protocols](#protocols)
+- [Security](#security)
 - [Use with AI agents](#ai-agents)
 - [About the driver](#about-the-driver)
 - [System requirements](#system-requirements)
@@ -42,7 +41,7 @@ or the latest development version from GitHub:
 $ pip install git+https://github.com/hololinked-dev/wotpylab_keithley2600.git
 ```
 
-## Usage
+## Quickstart
 
 CLI is the easiest starting point. It has two commands, `serve` and `generate-td`:
 
@@ -59,7 +58,7 @@ $ uv run wotpylab-keithley2600 --help
 $ uv run python -m wotpylab_keithley2600.run --help
 ```
 
-### Serve the instrument
+## Serve the instrument
 
 Give the VISA address of your Keithley:
 
@@ -103,7 +102,7 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"smu": "smua", "voltage"
 SMUs and buffers are given by name (`"smua"`, `"smua.nvbuffer1"`). The Thing Description
 is the reference for the names, the inputs and the outputs of all interactions.
 
-### The Thing Description
+## The Thing Description
 
 The Thing Description (as a Thing Model) is written in `wotpylab_keithley2600/td.py`.
 To read more about Thing Descriptions, see:
@@ -143,11 +142,11 @@ reference manual of the instrument.
 The TSP attributes, which the underlying keithley2600 driver loads dynamically from the instrument, are not exposed
 by default. You need to list them in the Thing Description. This way you also control what is exposed and what is not.
 
-### Protocols
+## Protocols
 
 Choose the protocol with `--protocol`, `http` by default.
 
-#### HTTP options
+### HTTP options
 
 | Option | Default | Description |
 |---|---|---|
@@ -157,7 +156,7 @@ Choose the protocol with `--protocol`, `http` by default.
 | `--cors` / `--no-cors` | on | set CORS headers |
 | `--certfile`, `--keyfile` | none | certificate and private key, serves HTTPS if given |
 
-#### ZMQ options
+### ZMQ options
 
 | Option | Default | Description |
 |---|---|---|
@@ -170,7 +169,7 @@ $ wotpylab-keithley2600 serve --protocol zmq --access-points IPC tcp://*:5555
 
 Over TCP, events are published on the next port (5556 in this example).
 
-### Security
+## Security
 
 Security schemes are supported over HTTP only. Choose one with `--security`:
 
