@@ -13,8 +13,9 @@ Based on the keithley2600 driver. Documentation of the driver is available at
 - [https://github.com/OE-FET/keithley2600](https://github.com/OE-FET/keithley2600)
 - [https://keithley2600.readthedocs.io](https://keithley2600.readthedocs.io)
 
-> Current Status: *Untested*
-> Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
+> Current Status: *Untested*. Users wanted. Please write to info@hololinked.dev or jump into the [discord server](https://discord.com/invite/kEz87zqQXh).
+
+[![PyPI](https://img.shields.io/pypi/v/wotpylab_keithley2600?label=pypi%20package)](https://pypi.org/project/wotpylab_keithley2600/) [![email](https://img.shields.io/badge/email-brown)](mailto:info@hololinked.dev) [![Discord](https://img.shields.io/discord/1265289049783140464?label=Discord%20Members&logo=discord)](https://discord.com/invite/kEz87zqQXh) [![CI](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/ci.yml/badge.svg)](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/ci.yml) [![CD](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/cd.yml/badge.svg)](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/cd.yml) [![Python](https://img.shields.io/pypi/pyversions/wotpylab_keithley2600)](https://pypi.org/project/wotpylab_keithley2600/) [![License](https://img.shields.io/pypi/l/wotpylab_keithley2600)](LICENSE.txt) ![Ruff](https://img.shields.io/badge/linter-ruff-blue?logo=ruff&logoColor=white) [![SAST](https://img.shields.io/badge/sast-bandit-yellow.svg)](https://github.com/hololinked-dev/wotpylab_keithley2600/actions/workflows/ci.yml)
 
 ## Contents
 
@@ -46,15 +47,15 @@ $ pip install git+https://github.com/hololinked-dev/wotpylab_keithley2600.git
 CLI is the easiest starting point. It has two commands, `serve` and `generate-td`:
 
 ```console
-$ wotpylab-keithley2600 --help
-$ wotpylab-keithley2600 serve --help
+$ wotpylab_keithley2600 --help
+$ wotpylab_keithley2600 serve --help
 ```
 
 From a git clone of this repository, prefix the commands with `uv run`, or use
-`python -m wotpylab_keithley2600.run` instead of `wotpylab-keithley2600`:
+`python -m wotpylab_keithley2600.run` instead of `wotpylab_keithley2600`:
 
 ```console
-$ uv run wotpylab-keithley2600 --help
+$ uv run wotpylab_keithley2600 --help
 $ uv run python -m wotpylab_keithley2600.run --help
 ```
 
@@ -63,7 +64,7 @@ $ uv run python -m wotpylab_keithley2600.run --help
 Give the VISA address of your Keithley:
 
 ```console
-$ wotpylab-keithley2600 serve --id keithley-2600 --visa-address TCPIP0::192.168.2.121::INSTR
+$ wotpylab_keithley2600 serve --id keithley-2600 --visa-address TCPIP0::192.168.2.121::INSTR
 ```
 
 HTTP is the default protocol and the instrument will be served on port 8080 with the Thing ID `keithley-2600`. A so-called
@@ -104,20 +105,19 @@ is the reference for the names, the inputs and the outputs of all interactions.
 
 ## The Thing Description
 
-The Thing Description (as a Thing Model) is written in `wotpylab_keithley2600/td.py`.
+The Thing Description (as a Thing Model) is written in `wotpylab_keithley2600/td.py` - an exported copy is in [`keithley-2600.json`](keithley-2600.json).
 To read more about Thing Descriptions, see:
 
 - [the readme of hololinked](https://github.com/hololinked-dev/hololinked)
-- [the documentation of hololinked](https://docs.hololinked.dev)
 - [the W3C website](https://www.w3.org/WoT/developers/documentation)
 - [the specification](https://www.w3.org/TR/wot-thing-description11/)
 
 To change the Thing Description without changing the code, write it to a file, edit the file and serve that file:
 
 ```console
-$ wotpylab-keithley2600 generate-td --output keithley-2600.json
+$ wotpylab_keithley2600 generate-td --output keithley-2600.json
 # add properties and actions to keithley-2600.json
-$ wotpylab-keithley2600 serve --td keithley-2600.json --visa-address TCPIP0::192.168.2.121::INSTR
+$ wotpylab_keithley2600 serve --td keithley-2600.json --visa-address TCPIP0::192.168.2.121::INSTR
 ```
 
 To expose another TSP attribute, add a property named by its path to `"properties"`, for example
@@ -164,7 +164,7 @@ Choose the protocol with `--protocol`, `http` by default.
 | `--access-points AP [AP ...]` | `IPC` | `IPC`, `INPROC`, `TCP` or a TCP socket address like `tcp://*:5555` |
 
 ```console
-$ wotpylab-keithley2600 serve --protocol zmq --access-points IPC tcp://*:5555
+$ wotpylab_keithley2600 serve --protocol zmq --access-points IPC tcp://*:5555
 ```
 
 Over TCP, events are published on the next port (5556 in this example).
@@ -173,18 +173,22 @@ Over TCP, events are published on the next port (5556 in this example).
 
 Security schemes are supported over HTTP only. Choose one with `--security`:
 
-**Username and password** (`basic`). The password is asked for when the server starts,
+**Username and password** (`basic`) 
+
+The password is asked for when the server starts,
 so that it is not stored in the shell history:
 
 ```console
-$ wotpylab-keithley2600 serve --security basic --username lab
+$ wotpylab_keithley2600 serve --security basic --username lab
 Password of lab:
 ```
 
 Clients send `Authorization: Basic <base64 of username:password>`. The password is stored
 as an Argon2 hash; use `--password-hasher bcrypt` for less memory.
 
-**API key** (`apikey`). Create the key once with hololinked:
+**API key** (`apikey`)
+
+Create the key once with hololinked:
 
 ```python
 import os
@@ -198,15 +202,17 @@ default; pass `validity_period_minutes` to `create()` to change that. Then serve
 file it is stored in:
 
 ```console
-$ wotpylab-keithley2600 serve --security apikey --apikey-name lab --apikey-file apikeys.json
+$ wotpylab_keithley2600 serve --security apikey --apikey-name lab --apikey-file apikeys.json
 ```
 
 Clients send `X-API-Key: <key>`.
 
-**OIDC** (`oidc`). Give the issuer of your OIDC provider, for example Keycloak:
+**OIDC** (`oidc`)
+
+Give the issuer of your OIDC provider, for example Keycloak:
 
 ```console
-$ wotpylab-keithley2600 serve --security oidc --oidc-issuer https://keycloak.example.com/realms/lab --oidc-audience keithley --oidc-allowed-roles device-admin
+$ wotpylab_keithley2600 serve --security oidc --oidc-issuer https://keycloak.example.com/realms/lab --oidc-audience keithley --oidc-allowed-roles device-admin
 ```
 
 or put the settings in a JSON file, whose keys are the arguments of hololinked's
@@ -221,7 +227,7 @@ or put the settings in a JSON file, whose keys are the arguments of hololinked's
 ```
 
 ```console
-$ wotpylab-keithley2600 serve --security oidc --oidc-config-file oidc.json
+$ wotpylab_keithley2600 serve --security oidc --oidc-config-file oidc.json
 ```
 
 Options given on the command line override the file. Clients send
@@ -232,7 +238,7 @@ get its signing keys.
 
 AI agents can operate the instrument through the same API. To set this up:
 
-- **Serve over HTTP**, the default protocol, so that the agent can reach the instrument with plain HTTP requests.
+- **Serve over HTTP** so that the agent can reach the instrument with plain HTTP requests.
 - **Give the agent the Thing Description** (`http://localhost:8080/keithley-2600/resources/wot-td`). It lists every
   property and action with its description, input and output schemas, units and the URL and HTTP method to call,
   which is what an agent needs to turn them into tools.

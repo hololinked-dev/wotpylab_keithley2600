@@ -1,0 +1,690 @@
+{
+    "id": "keithley-2600",
+    "title": "Keithley 2600",
+    "description": "Keithley2600 driver with high level functionality",
+    "properties": {
+        "busy": {
+            "title": "Busy",
+            "description": "True if a measurement is running, False otherwise.",
+            "type": "boolean",
+            "readOnly": true
+        },
+        "connected": {
+            "title": "Connected",
+            "description": "True if the VISA connection to the instrument is open, False otherwise.",
+            "type": "boolean",
+            "readOnly": true
+        },
+        "smua.source.output": {
+            "title": "SMU A output",
+            "description": "Output state of SMU A: 0 off (OUTPUT_OFF), 1 on (OUTPUT_ON), 2 high-Z (OUTPUT_HIGH_Z).",
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        },
+        "smua.source.levelv": {
+            "title": "SMU A source voltage",
+            "description": "Source voltage level of SMU A.",
+            "type": "number",
+            "unit": "V"
+        },
+        "smua.source.leveli": {
+            "title": "SMU A source current",
+            "description": "Source current level of SMU A.",
+            "type": "number",
+            "unit": "A"
+        },
+        "smua.source.limitv": {
+            "title": "SMU A voltage compliance",
+            "description": "Voltage limit (compliance) of SMU A when sourcing current.",
+            "type": "number",
+            "unit": "V"
+        },
+        "smua.source.limiti": {
+            "title": "SMU A current compliance",
+            "description": "Current limit (compliance) of SMU A when sourcing voltage.",
+            "type": "number",
+            "unit": "A"
+        },
+        "smua.source.rangev": {
+            "title": "SMU A source voltage range",
+            "description": "Voltage source range of SMU A, setting it turns autorange off.",
+            "type": "number",
+            "unit": "V"
+        },
+        "smua.source.autorangev": {
+            "title": "SMU A source voltage autorange",
+            "description": "Voltage source autorange of SMU A: 0 off (AUTORANGE_OFF), 1 on (AUTORANGE_ON).",
+            "type": "integer",
+            "enum": [
+                0,
+                1
+            ]
+        },
+        "smua.measure.nplc": {
+            "title": "SMU A integration time",
+            "description": "Integration time of SMU A measurements in power line cycles.",
+            "type": "number"
+        },
+        "smub.source.output": {
+            "title": "SMU B output",
+            "description": "Output state of SMU B: 0 off (OUTPUT_OFF), 1 on (OUTPUT_ON), 2 high-Z (OUTPUT_HIGH_Z).",
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        },
+        "smub.source.levelv": {
+            "title": "SMU B source voltage",
+            "description": "Source voltage level of SMU B.",
+            "type": "number",
+            "unit": "V"
+        },
+        "smub.source.leveli": {
+            "title": "SMU B source current",
+            "description": "Source current level of SMU B.",
+            "type": "number",
+            "unit": "A"
+        },
+        "smub.source.limitv": {
+            "title": "SMU B voltage compliance",
+            "description": "Voltage limit (compliance) of SMU B when sourcing current.",
+            "type": "number",
+            "unit": "V"
+        },
+        "smub.source.limiti": {
+            "title": "SMU B current compliance",
+            "description": "Current limit (compliance) of SMU B when sourcing voltage.",
+            "type": "number",
+            "unit": "A"
+        },
+        "smub.source.rangev": {
+            "title": "SMU B source voltage range",
+            "description": "Voltage source range of SMU B, setting it turns autorange off.",
+            "type": "number",
+            "unit": "V"
+        },
+        "smub.source.autorangev": {
+            "title": "SMU B source voltage autorange",
+            "description": "Voltage source autorange of SMU B: 0 off (AUTORANGE_OFF), 1 on (AUTORANGE_ON).",
+            "type": "integer",
+            "enum": [
+                0,
+                1
+            ]
+        },
+        "smub.measure.nplc": {
+            "title": "SMU B integration time",
+            "description": "Integration time of SMU B measurements in power line cycles.",
+            "type": "number"
+        }
+    },
+    "actions": {
+        "connect": {
+            "title": "Connect",
+            "description": "Connects to Keithley.",
+            "output": {
+                "type": "boolean"
+            }
+        },
+        "disconnect": {
+            "title": "Disconnect",
+            "description": "Disconnects from Keithley."
+        },
+        "read_error_queue": {
+            "title": "Read error queue",
+            "description": "Returns all entries from the Keithley error queue and clears the queue.",
+            "output": {
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "description": "[code, message, severity, node]"
+                }
+            }
+        },
+        "read_buffer": {
+            "title": "Read buffer",
+            "description": "Reads buffer values and returns them as a list. This can be done more quickly by calling :attr:`buffer.readings` but such a call may fail due to I/O limitations of the keithley if the returned list is too long.",
+            "input": {
+                "type": "string",
+                "enum": [
+                    "smua.nvbuffer1",
+                    "smua.nvbuffer2",
+                    "smub.nvbuffer1",
+                    "smub.nvbuffer2"
+                ]
+            },
+            "output": {
+                "type": "array",
+                "items": {
+                    "type": "number"
+                }
+            }
+        },
+        "create_lua_attr": {
+            "title": "Create Lua attribute",
+            "description": "Creates an attribute / index of this table, initialized to the provided value.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ]
+                    },
+                    "value": {
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "boolean"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "value"
+                ]
+            }
+        },
+        "delete_lua_attr": {
+            "title": "Delete Lua attribute",
+            "description": "Deletes an attribute / index of this table.",
+            "input": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "send_trigger": {
+            "title": "Send trigger",
+            "description": "Manually sends a trigger signal to the Keithley. This can be used for instance to start a pre-programmed sweep."
+        },
+        "set_integration_time": {
+            "title": "Set integration time",
+            "description": "Sets the integration time of SMU for measurements in sec.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "t_int": {
+                        "type": "number",
+                        "unit": "s"
+                    }
+                },
+                "required": [
+                    "smu",
+                    "t_int"
+                ]
+            }
+        },
+        "apply_voltage": {
+            "title": "Apply voltage",
+            "description": "Turns on the specified SMU and applies a voltage.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "voltage": {
+                        "type": "number",
+                        "unit": "V"
+                    }
+                },
+                "required": [
+                    "smu",
+                    "voltage"
+                ]
+            }
+        },
+        "apply_current": {
+            "title": "Apply current",
+            "description": "Turns on the specified SMU and sources a current.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "curr": {
+                        "type": "number",
+                        "unit": "A"
+                    }
+                },
+                "required": [
+                    "smu",
+                    "curr"
+                ]
+            }
+        },
+        "measure_voltage": {
+            "title": "Measure voltage",
+            "description": "Measures a voltage at the specified SMU.",
+            "input": {
+                "type": "string",
+                "enum": [
+                    "smua",
+                    "smub"
+                ]
+            },
+            "output": {
+                "type": "number",
+                "unit": "V"
+            }
+        },
+        "measure_current": {
+            "title": "Measure current",
+            "description": "Measures a current at the specified SMU.",
+            "input": {
+                "type": "string",
+                "enum": [
+                    "smua",
+                    "smub"
+                ]
+            },
+            "output": {
+                "type": "number",
+                "unit": "A"
+            }
+        },
+        "ramp_to_voltage": {
+            "title": "Ramp to voltage",
+            "description": "Ramps up the voltage of the specified SMU.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "target_volt": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "delay": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "step_size": {
+                        "type": "number",
+                        "unit": "V"
+                    }
+                },
+                "required": [
+                    "smu",
+                    "target_volt"
+                ]
+            }
+        },
+        "voltage_sweep_single_smu": {
+            "title": "Voltage sweep (single SMU)",
+            "description": "Sweeps the voltage through the specified list of steps at the given SMU. Measures and returns the current and voltage during the sweep.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "smu_sweeplist": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "t_int": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "delay": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "pulsed": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "smu",
+                    "smu_sweeplist",
+                    "t_int",
+                    "delay",
+                    "pulsed"
+                ]
+            },
+            "output": {
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "description": "[v_smu, i_smu]"
+            }
+        },
+        "voltage_sweep_dual_smu": {
+            "title": "Voltage sweep (dual SMU)",
+            "description": "Sweeps voltages at two SMUs. Measures and returns current and voltage during sweep.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu1": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "smu2": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "smu1_sweeplist": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "smu2_sweeplist": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "t_int": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "delay": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "pulsed": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "smu1",
+                    "smu2",
+                    "smu1_sweeplist",
+                    "smu2_sweeplist",
+                    "t_int",
+                    "delay",
+                    "pulsed"
+                ]
+            },
+            "output": {
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "description": "[v_smu1, i_smu1, v_smu2, i_smu2]"
+            }
+        },
+        "transfer_measurement": {
+            "title": "Transfer measurement",
+            "description": "Records a transfer curve with forward and reverse sweeps and returns the results as a table.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu_gate": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "smu_drain": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "vg_start": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "vg_stop": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "vg_step": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "vd_list": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "t_int": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "delay": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "pulsed": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "smu_gate",
+                    "smu_drain",
+                    "vg_start",
+                    "vg_stop",
+                    "vg_step",
+                    "vd_list",
+                    "t_int",
+                    "delay",
+                    "pulsed"
+                ]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "columns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "units": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "params": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "output_measurement": {
+            "title": "Output measurement",
+            "description": "Records an output curve with forward and reverse sweeps and returns the results as a table.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "smu_gate": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "smu_drain": {
+                        "type": "string",
+                        "enum": [
+                            "smua",
+                            "smub"
+                        ]
+                    },
+                    "vd_start": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "vd_stop": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "vd_step": {
+                        "type": "number",
+                        "unit": "V"
+                    },
+                    "vg_list": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "t_int": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "delay": {
+                        "type": "number",
+                        "unit": "s"
+                    },
+                    "pulsed": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "smu_gate",
+                    "smu_drain",
+                    "vd_start",
+                    "vd_stop",
+                    "vd_step",
+                    "vg_list",
+                    "t_int",
+                    "delay",
+                    "pulsed"
+                ]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "columns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "units": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "params": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "abort": {
+            "title": "Abort",
+            "description": "Aborts a running voltage sweep, transfer or output measurement."
+        },
+        "play_chord": {
+            "title": "Play chord",
+            "description": "Plays a chord on the Keithley.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "notes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "durations": {
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "unit": "s"
+                            },
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

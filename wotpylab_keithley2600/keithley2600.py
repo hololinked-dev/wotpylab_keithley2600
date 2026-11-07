@@ -1,5 +1,3 @@
-"""The keithley2600 driver with JSON-serializable arguments and results, to implement the TD in `td.py`."""
-
 from enum import StrEnum
 from typing import Any
 
@@ -51,7 +49,7 @@ class Keithley2600(BuiltinKeithley2600):
     # ---- low level ----
 
     def read_buffer(self, buffer: str | KeithleyClass) -> list[float]:
-        return super().read_buffer(self._buffer(buffer))
+        return super().read_buffer(self.buffer(buffer))
 
     def create_lua_attr(self, name: str | int, value: Any) -> None:
         super().create_lua_attr(name, value)  # returned accessor is not serializable
@@ -183,7 +181,7 @@ class Keithley2600(BuiltinKeithley2600):
             raise ValueError(f"unknown SMU {smu!r}")
         return getattr(self, smu)
 
-    def _buffer(self, buffer: str | KeithleyClass) -> KeithleyClass:
+    def buffer(self, buffer: str | KeithleyClass) -> KeithleyClass:
         if isinstance(buffer, KeithleyClass):
             return buffer
         smu, name = Buffer(buffer).split(".")  # ValueError for an unknown buffer
